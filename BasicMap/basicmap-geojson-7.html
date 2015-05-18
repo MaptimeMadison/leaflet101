@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<!--container for meta data-->
+<head>
+	<title>Map Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- adds the leaflet styles -->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<!-- adds leaflet's JavaScript library -->
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	<!-- adds stamen layers http://maps.stamen.com -->
+	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+	<!-- adds jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+	<style type="text/css">
+	#map { 
+		height: 500px; 
+	}
+
+	</style>
+
+</head>
+<!-- body contains the text, links, images, ect that will be displayed--> 
+<body>
+ <div id="map"></div>
+
+<!-- JavaScript goes between script tags -->
+<script type="text/javascript">
+
+//sets the maps lat lng and zoom
+// add an OpenStreetMap tile layer
+var layer = new L.StamenTileLayer("toner");
+var map = new L.Map("map", {
+    center: new L.LatLng(43.08, -89.35),
+    zoom: 14,
+});
+
+map.addLayer(layer);
+
+$.getJSON("b-tour.geojson")
+	.done(function(layer){
+		addLayer(layer);
+		})
+	.fail(function(){
+		console.log("error")}	
+	);
+
+// add a marker  
+function addLayer(layer){
+//http://leafletjs.com/reference.html#geojson
+	L.geoJson(layer, {
+    pointToLayer: function (feature, latlng){
+    	return L.circleMarker(latlng, {
+					radius: 8,
+					fillColor: getColor(feature),
+					color: "#000",
+					weight: 1,
+					opacity: 1,
+					fillOpacity: 0.8
+				});
+    },
+    onEachFeature: function (feature, layer) {
+    	if(feature.properties.description ){
+    		layer.bindPopup(feature.properties.description);
+    	}
+    	else{
+    		layer.bindPopup("B-Station");
+    	}
+    }
+}).addTo(map);
+}
+
+// to get more color options http://www.colorpicker.com/
+function getColor(feature){
+	if(feature.properties.title === "B-Station"){
+		return "red"
+	}
+	else{
+		return "blue"
+	}
+}
+
+ </script>
+</body>
+</html>
+

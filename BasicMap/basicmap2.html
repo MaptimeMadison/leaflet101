@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<!--container for meta data-->
+<head>
+	<title>Map Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- adds the leaflet styles -->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<!-- adds leaflet's JavaScript library -->
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+	<style type="text/css">
+	#map { 
+		height: 500px; 
+	}
+	</style>
+
+</head>
+<!-- body contains the text, links, images, ect that will be displayed--> 
+<body>
+ <div id="map"></div>
+
+<!-- JavaScript goes between script tags -->
+<script type="text/javascript">
+
+//sets the maps lat lng and zoom
+var map = L.map('map').setView([43.07, -89.4], 10);
+
+// add an OpenStreetMap tile layer
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+
+ </script>
+</body>
+</html>
